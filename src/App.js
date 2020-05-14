@@ -1,52 +1,52 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 
 import UserPicker from './components/UserPicker';
 import User from './components/User';
 
-class App extends Component {
-  state = {
+const App = ()=> {
+ const [state,setState] =  useState({
     selectedUser: 1,
     side: 'light',
     destroyed: false
+  },[]);
+
+  const sideHandler = side => {
+   setState({ ...state, side: side });
   };
 
-  sideHandler = side => {
-    this.setState({ side: side });
-  };
-
- userSelectHandler = event => {
+  const userSelectHandler = event => {
     const userId = event.target.value;
-    this.setState({ selectedUser: userId });
+    setState({  ...state, selectedUser: userId });
   };
 
-  destructionHandler = () => {
-    this.setState({ destroyed: true });
+  const destructionHandler = () => {
+   setState({  ...state, destroyed: true });
   };
 
-  render() {
+ 
     let content = (
       <React.Fragment>
         <UserPicker
-          side={this.state.side}
-          selectedUser={this.state.selectedUser}
-          onUserSelect={this.userSelectHandler}
+          side={state.side}
+          selectedUser={state.selectedUser}
+          onUserSelect={userSelectHandler}
         />
-        <User selectedUser={this.state.selectedUser} />
-        <button onClick={this.sideHandler.bind(this, 'light')}>
+        <User selectedUser={state.selectedUser} />
+        <button onClick={sideHandler.bind(this, 'light')}>
           Light Side
         </button>
-        <button onClick={this.sideHandler.bind(this, 'dark')}>Dark Side</button>
-        {this.state.side === 'dark' && (
-          <button onClick={this.destructionHandler}>DESTROY!</button>
+        <button onClick={sideHandler.bind(this, 'dark')}>Dark Side</button>
+        {state.side === 'dark' && (
+          <button onClick={destructionHandler}>DESTROY!</button>
         )}
       </React.Fragment>
     );
 
-    if (this.state.destroyed) {
+    if (state.destroyed) {
       content = <h1>Total destruction!</h1>;
     }
     return content;
-  }
+
 }
 
 export default App;
