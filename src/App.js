@@ -8,7 +8,7 @@ const App = ()=> {
     selectedUser: 1,
     side: 'light',
     destroyed: false
-  },[]);
+  });
 
   const sideHandler = side => {
    setState({ ...state, side: side });
