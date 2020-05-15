@@ -1,14 +1,13 @@
 import React, { useState } from "react";
-
 import UserPicker from "./components/UserPicker";
 import User from "./components/User";
 
 const App = () => {
   const [selectedUser, setSelectedUser] = useState(1);
-  const [side, setSide] = useState("light");
+  const [theme, setTheme] = useState("light");
   const [destroyed, setDestroyed] = useState(false);
-  const sideHandler = (side) => {
-    setSide(side);
+  const themeHandler = (theme) => {
+    setTheme(theme);
   };
   const userSelectHandler = (event) => {
     const userId = event.target.value;
@@ -20,20 +19,20 @@ const App = () => {
   let content = (
     <React.Fragment>
       <UserPicker
-        side={side}
+        theme={theme}
         selectedUser={selectedUser}
         onUserSelect={userSelectHandler}
       />
       <User selectedUser={selectedUser} />
-      <button onClick={sideHandler.bind(this, "light")}>Light Side</button>
-      <button onClick={sideHandler.bind(this, "dark")}>Dark Side</button>
-      {side === "dark" && (
-        <button onClick={destructionHandler}>DESTROY!</button>
+      <button onClick={themeHandler.bind(this, "light")}>Light Theme</button>
+      <button onClick={themeHandler.bind(this, "dark")}>Dark Theme</button>
+      {theme === "dark" && (
+        <button onClick={destructionHandler}> Destroy </button>
       )}
     </React.Fragment>
   );
   if (destroyed) {
-    content = <h1>Total destruction!</h1>;
+    content = <h1> Killed them all!</h1>;
   }
   return content;
 };

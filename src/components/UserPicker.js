@@ -1,46 +1,24 @@
-import React, { useState, useEffect } from "react";
-
+import React from "react";
+import { useHttp } from "../hooks/http";
 import "./UserPicker.css";
 const UserPicker = (props) => {
-  const [state, setState] = useState({ users: [], isLoading: false });
-  useEffect(() => {
-    setState({ ...state, isLoading: true });
-    fetch("https://reqres.in/api/users")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to fetch.");
-        }
-        return response.json();
-      })
-      .then((user) => {
-        let userData = user.data;
-        setState({ ...state, users: userData, isLoading: false });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    return () => {
-      console.log("cleaning up");
-    };
-  }, []);
-
+  const [isLoading, users] = useHttp("https://reqres.in/api/users", []);
   let content = <p>Loading users...</p>;
-
-  if (!state.isLoading && state.users && state.users.length > 0) {
+  if (!isLoading && users && users.length > 0) {
     content = (
       <select
         onChange={props.onUserSelect}
         value={props.selectedUser}
-        className={props.side}
+        className={props.theme}
       >
-        {state.users.map((user) => (
+        {users.map((user) => (
           <option key={user.id} value={user.id}>
             {user.first_name}
           </option>
         ))}
       </select>
     );
-  } else if (!state.isLoading && (!state.users || state.users.length === 0)) {
+  } else if (!isLoading && (!users || users.length === 0)) {
     content = <p>Could not fetch any data.</p>;
   }
   return content;
