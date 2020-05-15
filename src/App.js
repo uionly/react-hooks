@@ -1,52 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-import UserPicker from './components/UserPicker';
-import User from './components/User';
+import UserPicker from "./components/UserPicker";
+import User from "./components/User";
 
-const App = ()=> {
- const [state,setState] =  useState({
-    selectedUser: 1,
-    side: 'light',
-    destroyed: false
-  });
-
-  const sideHandler = side => {
-   setState({ ...state, side: side });
+const App = () => {
+  const [selectedUser, setSelectedUser] = useState(1);
+  const [side, setSide] = useState("light");
+  const [destroyed, setDestroyed] = useState(false);
+  const sideHandler = (side) => {
+    setSide(side);
   };
-
-  const userSelectHandler = event => {
+  const userSelectHandler = (event) => {
     const userId = event.target.value;
-    setState({  ...state, selectedUser: userId });
+    setSelectedUser(userId);
   };
-
   const destructionHandler = () => {
-   setState({  ...state, destroyed: true });
+    setDestroyed(true);
   };
-
- 
-    let content = (
-      <React.Fragment>
-        <UserPicker
-          side={state.side}
-          selectedUser={state.selectedUser}
-          onUserSelect={userSelectHandler}
-        />
-        <User selectedUser={state.selectedUser} />
-        <button onClick={sideHandler.bind(this, 'light')}>
-          Light Side
-        </button>
-        <button onClick={sideHandler.bind(this, 'dark')}>Dark Side</button>
-        {state.side === 'dark' && (
-          <button onClick={destructionHandler}>DESTROY!</button>
-        )}
-      </React.Fragment>
-    );
-
-    if (state.destroyed) {
-      content = <h1>Total destruction!</h1>;
-    }
-    return content;
-
-}
+  let content = (
+    <React.Fragment>
+      <UserPicker
+        side={side}
+        selectedUser={selectedUser}
+        onUserSelect={userSelectHandler}
+      />
+      <User selectedUser={selectedUser} />
+      <button onClick={sideHandler.bind(this, "light")}>Light Side</button>
+      <button onClick={sideHandler.bind(this, "dark")}>Dark Side</button>
+      {side === "dark" && (
+        <button onClick={destructionHandler}>DESTROY!</button>
+      )}
+    </React.Fragment>
+  );
+  if (destroyed) {
+    content = <h1>Total destruction!</h1>;
+  }
+  return content;
+};
 
 export default App;
