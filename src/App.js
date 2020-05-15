@@ -22,6 +22,9 @@ class App extends Component {
   destructionHandler = () => {
     this.setState({ destroyed: true });
   };
+  ressurectionHandler = () => {
+    this.setState({ destroyed: false });
+  };
 
   render() {
     let content = (
@@ -44,7 +47,12 @@ class App extends Component {
     );
 
     if (this.state.destroyed) {
-      content = <h1> I killed Him !</h1>;
+      content = (
+        <div>
+          <h1> I killed Him !</h1>
+          <button onClick={this.ressurectionHandler}> Resurrect! </button>
+        </div>
+      );
     }
     return content;
   }
