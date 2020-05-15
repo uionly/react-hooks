@@ -1,20 +1,20 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import UserPicker from './components/UserPicker';
-import User from './components/User';
-
+import UserPicker from "./components/UserPicker";
+import User from "./components/User";
+import "./App.css";
 class App extends Component {
   state = {
     selectedUser: 1,
-    side: 'light',
-    destroyed: false
+    theme: "light",
+    destroyed: false,
   };
 
-  sideHandler = side => {
-    this.setState({ side: side });
+  themeHandler = (theme) => {
+    this.setState({ theme: theme });
   };
 
- userSelectHandler = event => {
+  userSelectHandler = (event) => {
     const userId = event.target.value;
     this.setState({ selectedUser: userId });
   };
@@ -27,23 +27,24 @@ class App extends Component {
     let content = (
       <React.Fragment>
         <UserPicker
-          side={this.state.side}
+          theme={this.state.theme}
           selectedUser={this.state.selectedUser}
           onUserSelect={this.userSelectHandler}
         />
         <User selectedUser={this.state.selectedUser} />
-        <button onClick={this.sideHandler.bind(this, 'light')}>
-          Light Side
+
+        <button onClick={this.themeHandler.bind(this, "light")}>
+          Light Theme
         </button>
-        <button onClick={this.sideHandler.bind(this, 'dark')}>Dark Side</button>
-        {this.state.side === 'dark' && (
-          <button onClick={this.destructionHandler}>DESTROY!</button>
-        )}
+        <button onClick={this.themeHandler.bind(this, "dark")}>
+          Dark Theme
+        </button>
+        <button onClick={this.destructionHandler}> Kill! </button>
       </React.Fragment>
     );
 
     if (this.state.destroyed) {
-      content = <h1>Total destruction!</h1>;
+      content = <h1> I killed Him !</h1>;
     }
     return content;
   }

@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import Summary from './Summary';
+import Summary from "./Summary";
 
 class User extends Component {
   state = { loadedUser: {}, isLoading: false };
 
   shouldComponentUpdate(nextProps, nextState) {
-    console.log('shouldComponentUpdate');
+    console.log("shouldComponentUpdate");
     return (
       nextProps.selectedUser !== this.props.selectedUser ||
       nextState.loadedUser.id !== this.state.loadedUser.id ||
@@ -15,7 +15,7 @@ class User extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    console.log('Component did update');
+    console.log("Component did update");
     if (prevProps.selectedUser !== this.props.selectedUser) {
       this.fetchData();
     }
@@ -24,43 +24,36 @@ class User extends Component {
   componentDidMount() {
     this.fetchData();
   }
-// data": {
-//   "id": 2,
-//   "email": "janet.weaver@reqres.in",
-//   "first_name": "Janet",
-//   "last_name": "Weaver",
-//   "avatar": "https://s3.amazonaws.com/uifaces/faces/twitter/josephstein/128.jpg"
-// }
   fetchData = () => {
     console.log(
-      'Sending Http request for new character with id ' +
+      "Sending Http request for new character with id " +
         this.props.selectedUser
     );
     this.setState({ isLoading: true });
-    fetch('https://reqres.in/api/users/' + this.props.selectedUser)
-      .then(response => {
+    fetch("https://reqres.in/api/users/" + this.props.selectedUser)
+      .then((response) => {
         if (!response.ok) {
-          throw new Error('Could not fetch person!');
+          throw new Error("Could not fetch person!");
         }
         return response.json();
       })
-      .then(user => {
-       let  userData = user.data;
+      .then((user) => {
+        let userData = user.data;
         const loadedUser = {
           id: this.props.selectedUser,
           name: userData.first_name,
           email: userData.email,
-          avatar: userData.avatar
+          avatar: userData.avatar,
         };
         this.setState({ loadedUser: loadedUser, isLoading: false });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
 
   componentWillUnmount() {
-    console.log('Too soon...');
+    console.log("Too soon...");
   }
 
   render() {
@@ -71,7 +64,8 @@ class User extends Component {
         <Summary
           name={this.state.loadedUser.name}
           id={this.state.loadedUser.id}
-          email={this.state.loadedUser.email} avatar ={this.state.loadedUser.avatar}
+          email={this.state.loadedUser.email}
+          avatar={this.state.loadedUser.avatar}
         />
       );
     } else if (!this.state.isLoading && !this.state.loadedUser.id) {
