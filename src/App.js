@@ -33,6 +33,7 @@ const App = () => {
   );
   if (destroyed) {
     content = <h1> Killed them all!</h1>;
+
   }
   return content;
 };

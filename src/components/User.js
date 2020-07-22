@@ -26,6 +26,7 @@ const User = (props) => {
     );
   } else if (!isLoading && !loadedUser.id) {
     content = <p>Failed to fetch character.</p>;
+
   }
   return content;
 };
