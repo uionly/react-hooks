@@ -1,61 +1,41 @@
-import React, { Component } from "react";
-
+import React, { useState } from "react";
 import UserPicker from "./components/UserPicker";
 import User from "./components/User";
-import "./App.css";
-class App extends Component {
-  state = {
-    selectedUser: 1,
-    theme: "light",
-    destroyed: false,
-  };
 
-  themeHandler = (theme) => {
-    this.setState({ theme: theme });
+const App = () => {
+  const [selectedUser, setSelectedUser] = useState(1);
+  const [theme, setTheme] = useState("light");
+  const [destroyed, setDestroyed] = useState(false);
+  const themeHandler = (theme) => {
+    setTheme(theme);
   };
-
-  userSelectHandler = (event) => {
+  const userSelectHandler = (event) => {
     const userId = event.target.value;
-    this.setState({ selectedUser: userId });
+    setSelectedUser(userId);
   };
-
-  destructionHandler = () => {
-    this.setState({ destroyed: true });
+  const destructionHandler = () => {
+    setDestroyed(true);
   };
-  ressurectionHandler = () => {
-    this.setState({ destroyed: false });
-  };
+  let content = (
+    <React.Fragment>
+      <UserPicker
+        theme={theme}
+        selectedUser={selectedUser}
+        onUserSelect={userSelectHandler}
+      />
+      <User selectedUser={selectedUser} />
+      <button onClick={themeHandler.bind(this, "light")}>Light Theme</button>
+      <button onClick={themeHandler.bind(this, "dark")}>Dark Theme</button>
+      {theme === "dark" && (
+        <button onClick={destructionHandler}> Destroy </button>
+      )}
+    </React.Fragment>
+  );
+  if (destroyed) {
+    content = <h1> Killed them all!</h1>;
 
-  render() {
-    let content = (
-      <React.Fragment>
-        <UserPicker
-          theme={this.state.theme}
-          selectedUser={this.state.selectedUser}
-          onUserSelect={this.userSelectHandler}
-        />
-        <User selectedUser={this.state.selectedUser} />
-
-        <button onClick={this.themeHandler.bind(this, "light")}>
-          Light Theme
-        </button>
-        <button onClick={this.themeHandler.bind(this, "dark")}>
-          Dark Theme
-        </button>
-        <button onClick={this.destructionHandler}> Kill! </button>
-      </React.Fragment>
-    );
-
-    if (this.state.destroyed) {
-      content = (
-        <div>
-          <h1> I killed Him !</h1>
-          <button onClick={this.ressurectionHandler}> Resurrect! </button>
-        </div>
-      );
-    }
-    return content;
   }
-}
+  return content;
+};
 
 export default App;
